@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/Beatpass-frontendSPA/static/css/main.4f723a8c.css",
-    "main.js": "/Beatpass-frontendSPA/static/js/main.9480e5ae.js",
+    "main.js": "/Beatpass-frontendSPA/static/js/main.f802765d.js",
     "static/js/453.bdfce1b7.chunk.js": "/Beatpass-frontendSPA/static/js/453.bdfce1b7.chunk.js",
     "index.html": "/Beatpass-frontendSPA/index.html",
     "main.4f723a8c.css.map": "/Beatpass-frontendSPA/static/css/main.4f723a8c.css.map",
-    "main.9480e5ae.js.map": "/Beatpass-frontendSPA/static/js/main.9480e5ae.js.map",
+    "main.f802765d.js.map": "/Beatpass-frontendSPA/static/js/main.f802765d.js.map",
     "453.bdfce1b7.chunk.js.map": "/Beatpass-frontendSPA/static/js/453.bdfce1b7.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.4f723a8c.css",
-    "static/js/main.9480e5ae.js"
+    "static/js/main.f802765d.js"
   ]
 }
