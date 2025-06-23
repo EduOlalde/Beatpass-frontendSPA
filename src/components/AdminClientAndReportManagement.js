@@ -69,7 +69,7 @@ const AdminClientAndReportManagement = ({ initialTab = 'clientes' }) => {
         setClientLoading(true);
         setClientError(null);
         try {
-            const url = `/api/admin/clientes?tab=${type}&buscar=${searchTerm}`;
+            const url = `${process.env.REACT_APP_API_BASE_URL}/admin/clientes?tab=${type}&buscar=${searchTerm}`;
             const response = await fetch(url, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -90,7 +90,7 @@ const AdminClientAndReportManagement = ({ initialTab = 'clientes' }) => {
     // Fetch de festivales para el selector de reportes.
     const fetchFestivalsForReportSelector = useCallback(async () => {
         try {
-            const endpoint = user.role === 'PROMOTOR' ? `/api/promotor/festivales` : `/api/admin/festivales`;
+            const endpoint = user.role === 'PROMOTOR' ? `${process.env.REACT_APP_API_BASE_URL}/promotor/festivales` : `${process.env.REACT_APP_API_BASE_URL}/admin/festivales`;
             const response = await fetch(endpoint, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -131,12 +131,12 @@ const AdminClientAndReportManagement = ({ initialTab = 'clientes' }) => {
         try {
             let url;
             if (user.role === 'PROMOTOR') {
-                url = `/api/promotor/festivales/${festivalId}/${reportType}`;
+                url = `${process.env.REACT_APP_API_BASE_URL}/promotor/festivales/${festivalId}/${reportType}`;
             } else {
                 if (reportType === 'compras' || reportType === 'asistentes') {
-                    url = `/api/promotor/festivales/${festivalId}/${reportType}`;
+                    url = `${process.env.REACT_APP_API_BASE_URL}/promotor/festivales/${festivalId}/${reportType}`;
                 } else if (reportType === 'pulseras') {
-                    url = `/api/admin/festivales/${festivalId}/pulseras-nfc`;
+                    url = `${process.env.REACT_APP_API_BASE_URL}/admin/festivales/${festivalId}/pulseras-nfc`;
                 } else {
                     throw new Error("Tipo de reporte inválido.");
                 }
@@ -244,7 +244,7 @@ const AdminClientAndReportManagement = ({ initialTab = 'clientes' }) => {
             setClientLoading(true);
             setClientError(null);
             setSuccessMessage(null);
-            const response = await fetch(`/api/admin/asistentes/${asistenteId}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/admin/asistentes/${asistenteId}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,

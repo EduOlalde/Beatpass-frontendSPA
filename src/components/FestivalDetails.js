@@ -30,7 +30,7 @@ const FestivalDetails = () => {
                 setLoading(true);
                 setError(null);
 
-                const festivalResponse = await fetch(`/api/promotor/festivales/${idFestival}`, {
+                const festivalResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/promotor/festivales/${idFestival}`, {
                     headers: { 'Authorization': `Bearer ${token}` },
                 });
 
@@ -41,7 +41,7 @@ const FestivalDetails = () => {
                 const festData = await festivalResponse.json();
                 setFestivalDetails(festData);
 
-                const ticketTypesResponse = await fetch(`/api/promotor/festivales/${idFestival}/tipos-entrada`, {
+                const ticketTypesResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/promotor/festivales/${idFestival}/tipos-entrada`, {
                     headers: { 'Authorization': `Bearer ${token}` },
                 });
                 if (!ticketTypesResponse.ok) {

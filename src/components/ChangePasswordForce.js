@@ -29,7 +29,7 @@ const ChangePasswordForce = () => {
         setLoading(true);
 
         try {
-            const response = await fetch('/api/promotor/cambiar-password-obligatorio', {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/promotor/cambiar-password-obligatorio`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -45,7 +45,7 @@ const ChangePasswordForce = () => {
 
             setSuccessMessage('Contraseña actualizada con éxito. Por favor, inicie sesión de nuevo.');
             setTimeout(() => {
-                logout(); 
+                logout();
                 navigate('/login');
             }, 3000);
 

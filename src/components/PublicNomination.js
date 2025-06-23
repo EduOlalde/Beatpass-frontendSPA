@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const PublicNomination = () => {
     const { codigoQr } = useParams();
-    const navigate = useNavigate();
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -243,7 +242,6 @@ const PublicNomination = () => {
                             )}
                         </>
                     )}
-                    <a onClick={() => navigate('/')} className="block text-center mt-6 text-indigo-600 hover:text-indigo-800 font-medium cursor-pointer">Volver al inicio</a>
                 </div>
             </div>
         </div>

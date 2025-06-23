@@ -28,7 +28,7 @@ const PromoterDashboard = () => {
                 setLoading(true);
                 setError(null);
                 setSuccessMessage(null);
-                const response = await fetch('/api/promotor/festivales', {
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/promotor/festivales`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json',

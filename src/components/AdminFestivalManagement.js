@@ -40,7 +40,7 @@ const AdminFestivalManagement = () => {
             setLoading(true);
             setError(null);
             setSuccessMessage(null);
-            let url = `/api/admin/festivales`;
+            let url = `${process.env.REACT_APP_API_BASE_URL}/admin/festivales`;
             if (statusFilter && statusFilter !== 'TODOS') {
                 url += `?estado=${statusFilter}`;
             }
@@ -76,7 +76,7 @@ const AdminFestivalManagement = () => {
             setShowConfirmModal(false);
             try {
                 setError(null);
-                const response = await fetch(`/api/admin/festivales/${idFestival}/confirmar`, {
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/admin/festivales/${idFestival}/confirmar`, {
                     method: 'PUT',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -107,7 +107,7 @@ const AdminFestivalManagement = () => {
             setShowConfirmModal(false);
             try {
                 setError(null);
-                const response = await fetch(`/api/admin/festivales/${idFestival}/estado`, {
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/admin/festivales/${idFestival}/estado`, {
                     method: 'PUT',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -139,7 +139,7 @@ const AdminFestivalManagement = () => {
             setShowConfirmModal(false);
             try {
                 setError(null);
-                const response = await fetch(`/api/festivales/${idFestival}`, {
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/festivales/${idFestival}`, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -230,7 +230,7 @@ const AdminFestivalManagement = () => {
                             <option value="CANCELADO">Cancelado</option>
                             <option value="FINALIZADO">Finalizado</option>
                         </select>
-                    </div>                  
+                    </div>
                 </div>
 
                 {loading && (

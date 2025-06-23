@@ -43,7 +43,7 @@ const FestivalForm = () => {
                     setLoading(true);
                     setError(null);
                     setSuccessMessage(null);
-                    const response = await fetch(`/api/promotor/festivales/${idFestival}`, {
+                    const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/promotor/festivales/${idFestival}`, {
                         headers: { 'Authorization': `Bearer ${token}` },
                     });
 
@@ -116,10 +116,10 @@ const FestivalForm = () => {
             let method;
 
             if (isEditing) {
-                url = `/api/promotor/festivales/${idFestival}`;
+                url = `${process.env.REACT_APP_API_BASE_URL}/promotor/festivales/${idFestival}`;
                 method = 'PUT';
             } else {
-                url = `/api/promotor/festivales`;
+                url = `${process.env.REACT_APP_API_BASE_URL}/promotor/festivales`;
                 method = 'POST';
             }
 
