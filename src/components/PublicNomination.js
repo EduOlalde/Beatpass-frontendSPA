@@ -110,7 +110,7 @@ const PublicNomination = () => {
         }
 
         try {
-            const response = await fetch(`/api/public/venta/nominar/${codigoQr}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/public/venta/nominar/${codigoQr}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(nominationForm),
