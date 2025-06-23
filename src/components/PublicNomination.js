@@ -40,7 +40,7 @@ const PublicNomination = () => {
                 setError(null);
                 setSuccessMessage(null);
 
-                const response = await fetch(`/api/public/venta/entrada-qr/${codigoQr}`, {
+                const response = await fetch(`<span class="math-inline">\{process\.env\.REACT\_APP\_BACKEND\_API\_URL\}/public/venta/entrada\-qr/</span>{codigoQr}`, {
                     headers: { 'Content-Type': 'application/json' },
                 });
 
