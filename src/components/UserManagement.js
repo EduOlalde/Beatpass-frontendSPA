@@ -59,13 +59,13 @@ const UserManagement = () => {
             let fetchUrl;
             switch (role.toUpperCase()) {
                 case 'PROMOTOR':
-                    fetchUrl = `/api/admin/promotores`;
+                    fetchUrl = `${process.env.REACT_APP_API_BASE_URL}/admin/promotores`;
                     break;
                 case 'ADMIN':
-                    fetchUrl = `/api/admin/admins`;
+                    fetchUrl = `${process.env.REACT_APP_API_BASE_URL}/admin/admins`;
                     break;
                 case 'CAJERO':
-                    fetchUrl = `/api/admin/cajeros`;
+                    fetchUrl = `${process.env.REACT_APP_API_BASE_URL}/admin/cajeros`;
                     break;
                 default:
                     throw new Error(`Rol desconocido: ${role}`);
@@ -169,11 +169,11 @@ const UserManagement = () => {
             let body;
 
             if (isEditing) {
-                url = `/api/admin/usuarios/${currentUserForm.idUsuario}`;
+                url = `${process.env.REACT_APP_API_BASE_URL}/admin/usuarios/${currentUserForm.idUsuario}`;
                 method = 'PUT';
                 body = JSON.stringify({ nombre: currentUserForm.nombre });
             } else {
-                url = `/api/admin/usuarios`;
+                url = `${process.env.REACT_APP_API_BASE_URL}/admin/usuarios`;
                 method = 'POST';
                 body = JSON.stringify({
                     nombre: currentUserForm.nombre,
@@ -226,7 +226,7 @@ const UserManagement = () => {
             try {
                 setError(null);
                 setSuccessMessage(null);
-                const response = await fetch(`/api/admin/usuarios/${userId}/estado`, {
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/admin/usuarios/${userId}/estado`, {
                     method: 'PUT',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -263,7 +263,7 @@ const UserManagement = () => {
             try {
                 setError(null);
                 setSuccessMessage(null);
-                const response = await fetch(`/api/admin/usuarios/${userId}`, {
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/admin/usuarios/${userId}`, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': `Bearer ${token}`,

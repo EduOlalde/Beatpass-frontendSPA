@@ -53,7 +53,7 @@ const TicketTypesManagement = () => {
                 setError(null);
                 setSuccessMessage(null);
 
-                const festivalResponse = await fetch(`/api/promotor/festivales/${idFestival}`, {
+                const festivalResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/promotor/festivales/${idFestival}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json',
@@ -66,7 +66,7 @@ const TicketTypesManagement = () => {
                 const festivalData = await festivalResponse.json();
                 setFestivalName(festivalData.nombre);
 
-                const ticketTypesResponse = await fetch(`/api/promotor/festivales/${idFestival}/tipos-entrada`, {
+                const ticketTypesResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/promotor/festivales/${idFestival}/tipos-entrada`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json',
@@ -138,10 +138,10 @@ const TicketTypesManagement = () => {
             let method;
 
             if (isEditing) {
-                url = `/api/promotor/tipos-entrada/${currentTicketType.idTipoEntrada}`;
+                url = `${process.env.REACT_APP_API_BASE_URL}/promotor/tipos-entrada/${currentTicketType.idTipoEntrada}`;
                 method = 'PUT';
             } else {
-                url = `/api/promotor/festivales/${idFestival}/tipos-entrada`;
+                url = `${process.env.REACT_APP_API_BASE_URL}/promotor/festivales/${idFestival}/tipos-entrada`;
                 method = 'POST';
             }
 
@@ -159,7 +159,7 @@ const TicketTypesManagement = () => {
                 throw new Error(errorData.error || 'Error en la operación.');
             }
 
-            const ticketTypesResponse = await fetch(`/api/promotor/festivales/${idFestival}/tipos-entrada`, {
+            const ticketTypesResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/promotor/festivales/${idFestival}/tipos-entrada`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
@@ -227,7 +227,7 @@ const TicketTypesManagement = () => {
                 setLoading(true);
                 setError(null);
                 setSuccessMessage(null);
-                const response = await fetch(`/api/promotor/tipos-entrada/${idTipoEntrada}`, {
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/promotor/tipos-entrada/${idTipoEntrada}`, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': `Bearer ${token}`,

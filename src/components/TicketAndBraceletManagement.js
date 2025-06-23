@@ -63,7 +63,7 @@ const TicketAndBraceletManagement = () => {
                 setLoading(true);
                 setError(null);
                 setSuccessMessage(null);
-                const festivalResponse = await fetch(`/api/promotor/festivales/${idFestival}`, {
+                const festivalResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/promotor/festivales/${idFestival}`, {
                     headers: { 'Authorization': `Bearer ${token}` },
                 });
                 if (!festivalResponse.ok) {
@@ -95,7 +95,7 @@ const TicketAndBraceletManagement = () => {
             setLoading(true);
             setError(null);
             setSuccessMessage(null);
-            const response = await fetch(`/api/promotor/festivales/${idFestival}/entradas`, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/promotor/festivales/${idFestival}/entradas`, {
                 headers: { 'Authorization': `Bearer ${token}` },
             });
             if (!response.ok) {
@@ -119,7 +119,7 @@ const TicketAndBraceletManagement = () => {
             setLoading(true);
             setError(null);
             setSuccessMessage(null);
-            const response = await fetch(`/api/promotor/festivales/${idFestival}/pulseras`, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/promotor/festivales/${idFestival}/pulseras`, {
                 headers: { 'Authorization': `Bearer ${token}` },
             });
             if (!response.ok) {
@@ -176,7 +176,7 @@ const TicketAndBraceletManagement = () => {
         }
 
         try {
-            const response = await fetch(`/api/promotor/entradas/${selectedTicketToNominate.idEntrada}/nominar`, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/promotor/entradas/${selectedTicketToNominate.idEntrada}/nominar`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -211,7 +211,7 @@ const TicketAndBraceletManagement = () => {
                 setLoading(true);
                 setError(null);
                 setSuccessMessage(null);
-                const response = await fetch(`/api/promotor/entradas/${ticketId}/cancelar`, {
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/promotor/entradas/${ticketId}/cancelar`, {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${token}`,
