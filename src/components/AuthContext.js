@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || '';
 // Crea un contexto de autenticación.
 const AuthContext = createContext(null);
 
@@ -22,7 +23,7 @@ export const AuthProvider = ({ children }) => {
                     userId: decodedToken.sub,
                     role: decodedToken.role,
                     userName: decodedToken.userName || decodedToken.name || decodedToken.sub,
-                    cambioPasswordRequerido: decodedToken.pwdChangeRequired || false 
+                    cambioPasswordRequerido: decodedToken.pwdChangeRequired || false
                 });
             } catch (error) {
                 // Maneja errores de decodificación del token.
@@ -53,6 +54,7 @@ export const AuthProvider = ({ children }) => {
         isAuthenticated: !!token, // Verdadero si hay un token.
         login,
         logout,
+        apiBaseUrl: API_BASE_URL
     };
 
     return (
