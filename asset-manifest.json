@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "//eduolalde.github.io/Beatpass-frontendSPA/static/css/main.8e1b2a27.css",
+    "main.js": "//eduolalde.github.io/Beatpass-frontendSPA/static/js/main.ef23806d.js",
+    "static/js/453.bdfce1b7.chunk.js": "//eduolalde.github.io/Beatpass-frontendSPA/static/js/453.bdfce1b7.chunk.js",
+    "index.html": "//eduolalde.github.io/Beatpass-frontendSPA/index.html",
+    "main.8e1b2a27.css.map": "//eduolalde.github.io/Beatpass-frontendSPA/static/css/main.8e1b2a27.css.map",
+    "main.ef23806d.js.map": "//eduolalde.github.io/Beatpass-frontendSPA/static/js/main.ef23806d.js.map",
+    "453.bdfce1b7.chunk.js.map": "//eduolalde.github.io/Beatpass-frontendSPA/static/js/453.bdfce1b7.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8e1b2a27.css",
+    "static/js/main.ef23806d.js"
+  ]
+}
