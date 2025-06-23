@@ -1,23 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { HashRouter as Router } from 'react-router-dom';
+import AppRoutes from './AppRoutes';
+import { AuthProvider } from './components/AuthContext';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="min-h-screen bg-gradient-to-br from-blue-500 via-purple-600 to-indigo-700 text-gray-100 font-inter antialiased">
+      <AuthProvider>
+        <Router>
+          <main className="container mx-auto p-4 md:p-8">
+            <AppRoutes />
+          </main>
+        </Router>
+      </AuthProvider>
     </div>
   );
 }

@@ -1,13 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Inter', sans-serif;
+  @apply bg-gray-100 text-gray-800 antialiased;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.bg-corporate-gradient {
+  background: linear-gradient(to right, #3b82f6, #9333ea);
+  @apply text-white;
+}
+
+.btn-corporate-primary {
+  @apply bg-gradient-to-r from-blue-500 to-purple-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-lg hover:from-blue-600 hover:to-purple-800 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500;
+}
+
+.btn-corporate-secondary {
+  @apply bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-gray-600 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500;
+}
+
+.btn-public-accent {
+  @apply bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-orange-600 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500;
+}
+
+.title-corporate {
+  @apply text-3xl md:text-4xl font-extrabold text-gray-900 mb-6;
+}
+
+.title-public {
+  @apply text-3xl md:text-4xl font-extrabold text-orange-600 mb-6;
+}
+
+.card-corporate {
+  @apply bg-white p-6 rounded-xl shadow-2xl;
+}
+
+.input-corporate {
+  @apply w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900;
+}
+
+.nav-link-corporate {
+  @apply text-white hover:text-blue-200 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 block;
+}
+
+.error-message {
+  @apply text-red-600 text-sm mt-1 font-medium;
+}
+
+.success-message {
+  @apply text-green-600 text-sm mt-1 font-medium;
+}
+
+.table-corporate {
+  @apply min-w-full divide-y divide-gray-200 rounded-lg overflow-hidden;
+}
+
+.table-corporate thead th {
+  @apply px-6 py-3 bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider;
+}
+
+.table-corporate tbody td {
+  @apply px-6 py-4 whitespace-nowrap text-sm text-gray-800;
+}
+
+.table-corporate tbody tr:nth-child(even) {
+  @apply bg-gray-50;
+}
+
+.table-corporate tbody tr:hover {
+  @apply bg-gray-100 transition-colors duration-150;
 }
