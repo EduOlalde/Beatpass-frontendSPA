@@ -8,17 +8,24 @@ const AdminClientAndReportManagement = ({ initialTab = 'clientes' }) => {
     const navigate = useNavigate();
     const location = useLocation();
 
+    const getStatusBadgeClass = useCallback((status) => {
+        switch (status) {
+            case 'ACTIVA': return 'bg-green-100 text-green-800';
+            case 'USADA': return 'bg-yellow-100 text-yellow-800';
+            case 'CANCELADA': return 'bg-red-100 text-red-800';
+            case 'INACTIVA': return 'bg-red-100 text-red-800';
+            default: return 'bg-gray-100 text-gray-800';
+        }
+    }, []);
+
     // Parsear los parámetros de la URL para la carga inicial de reportes.
     const queryParams = new URLSearchParams(location.search);
     const initialFestivalIdFromUrl = queryParams.get('festivalId') || '';
-    const initialReportTypeFromUrl = queryParams.get('reportType') || 'compras';
+    const initialReportTypeFromUrl = queryParams.get('reportType') || '';
 
     // Determinar la pestaña activa inicial.
     const [activeTab, setActiveTab] = useState(() => {
-        if (initialFestivalIdFromUrl && initialReportTypeFromUrl) {
-            return 'reportes';
-        }
-        if (user.role === 'PROMOTOR' && initialTab === 'clientes') {
+        if (initialReportTypeFromUrl) {
             return 'reportes';
         }
         return initialTab;
@@ -37,7 +44,7 @@ const AdminClientAndReportManagement = ({ initialTab = 'clientes' }) => {
     const [reportData, setReportData] = useState([]);
     const [reportLoading, setReportLoading] = useState(false);
     const [reportError, setReportError] = useState(null);
-    const [reportTypeTab, setReportTypeTab] = useState(initialReportTypeFromUrl);
+    const [reportTypeTab, setReportTypeTab] = useState(initialReportTypeFromUrl || 'compras');
 
     // Estados para mensajes generales de éxito y error.
     const [successMessage, setSuccessMessage] = useState(null);
@@ -57,7 +64,7 @@ const AdminClientAndReportManagement = ({ initialTab = 'clientes' }) => {
         return () => clearTimeout(timer);
     }, []);
 
-    // Fetch de clientes (solo para ADMIN).
+    // Función para obtener clientes de la API por tipo y término de búsqueda.
     const fetchClients = useCallback(async (type, searchTerm) => {
         if (user.role !== 'ADMIN') {
             setClients([]);
@@ -87,8 +94,10 @@ const AdminClientAndReportManagement = ({ initialTab = 'clientes' }) => {
         }
     }, [user.role, token, showMessage]);
 
-    // Fetch de festivales para el selector de reportes.
-    const fetchFestivalsForReportSelector = useCallback(async () => {
+    // Función para cargar los festivales para el selector de reportes y configurar la selección inicial.
+    const loadFestivalsAndSetInitialSelection = useCallback(async () => {
+        if (!token) return;
+
         try {
             const endpoint = user.role === 'PROMOTOR' ? `${process.env.REACT_APP_API_BASE_URL}/promotor/festivales` : `${process.env.REACT_APP_API_BASE_URL}/admin/festivales`;
             const response = await fetch(endpoint, {
@@ -101,12 +110,12 @@ const AdminClientAndReportManagement = ({ initialTab = 'clientes' }) => {
             const data = await response.json();
             setFestivalsForReports(data);
 
-            // Establecer el festival seleccionado inicialmente.
+            // Lógica para establecer el festival seleccionado inicialmente
             if (initialFestivalIdFromUrl && data.some(f => String(f.idFestival) === initialFestivalIdFromUrl)) {
                 setSelectedFestivalId(initialFestivalIdFromUrl);
-            } else if (user.role === 'PROMOTOR' && data.length > 0 && !selectedFestivalId) {
+            } else if (user.role === 'PROMOTOR' && data.length > 0) {
                 setSelectedFestivalId(data[0].idFestival.toString());
-            } else if (user.role === 'ADMIN' && !initialFestivalIdFromUrl && !selectedFestivalId) {
+            } else if (user.role === 'ADMIN' && !initialFestivalIdFromUrl) {
                 setSelectedFestivalId('');
             }
 
@@ -114,9 +123,9 @@ const AdminClientAndReportManagement = ({ initialTab = 'clientes' }) => {
             console.error("Error fetching festivals for report selector:", err);
             showMessage(setReportError, err.message);
         }
-    }, [user.role, token, initialFestivalIdFromUrl, selectedFestivalId, showMessage]);
+    }, [token, user.role, initialFestivalIdFromUrl, showMessage]);
 
-    // Fetch de datos de reportes.
+    // Función para cargar datos de reportes.
     const fetchReport = useCallback(async (reportType, festivalId) => {
         if (!festivalId) {
             setReportData([]);
@@ -130,12 +139,13 @@ const AdminClientAndReportManagement = ({ initialTab = 'clientes' }) => {
 
         try {
             let url;
+            const actualReportType = reportType || 'compras';
             if (user.role === 'PROMOTOR') {
-                url = `${process.env.REACT_APP_API_BASE_URL}/promotor/festivales/${festivalId}/${reportType}`;
+                url = `${process.env.REACT_APP_API_BASE_URL}/promotor/festivales/${festivalId}/${actualReportType}`;
             } else {
-                if (reportType === 'compras' || reportType === 'asistentes') {
-                    url = `${process.env.REACT_APP_API_BASE_URL}/promotor/festivales/${festivalId}/${reportType}`;
-                } else if (reportType === 'pulseras') {
+                if (actualReportType === 'compras' || actualReportType === 'asistentes') {
+                    url = `${process.env.REACT_APP_API_BASE_URL}/promotor/festivales/${festivalId}/${actualReportType}`;
+                } else if (actualReportType === 'pulseras') {
                     url = `${process.env.REACT_APP_API_BASE_URL}/admin/festivales/${festivalId}/pulseras-nfc`;
                 } else {
                     throw new Error("Tipo de reporte inválido.");
@@ -147,7 +157,7 @@ const AdminClientAndReportManagement = ({ initialTab = 'clientes' }) => {
             });
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.error || `Error al cargar el reporte de ${reportType}.`);
+                throw new Error(errorData.error || `Error al cargar el reporte de ${actualReportType}.`);
             }
             const data = await response.json();
             setReportData(data);
@@ -159,53 +169,45 @@ const AdminClientAndReportManagement = ({ initialTab = 'clientes' }) => {
         }
     }, [user.role, token, showMessage]);
 
-    // Obtener clase de estilo para el estado de las pulseras.
-    const getStatusBadgeClass = useCallback((status) => {
-        switch (status) {
-            case 'ACTIVA': return 'bg-green-100 text-green-800';
-            case 'USADA': return 'bg-yellow-100 text-yellow-800';
-            case 'CANCELADA': return 'bg-red-100 text-red-800';
-            case 'INACTIVA': return 'bg-red-100 text-red-800';
-            default: return 'bg-gray-100 text-gray-800';
-        }
-    }, []);
-
-    // Efecto para la carga inicial y cambios de pestaña.
+    // Effect 1: Cargar festivales y configurar la selección inicial.
+    // Se ejecuta una vez al montar y cuando cambian el token o el rol del usuario.
     useEffect(() => {
         if (!token) {
             navigate('/login');
             return;
         }
-
         setMainError(null);
         setSuccessMessage(null);
+        loadFestivalsAndSetInitialSelection();
+    }, [token, user.role, navigate, loadFestivalsAndSetInitialSelection]);
 
-        fetchFestivalsForReportSelector();
 
+    // Effect 2: Cargar datos de clientes cuando la pestaña sea 'clientes' o cambien los filtros.
+    useEffect(() => {
+        if (!token) return;
+        setMainError(null);
+        setSuccessMessage(null);
         if (activeTab === 'clientes') {
             fetchClients(clientTypeTab, clientSearchTerm);
-        } else if (activeTab === 'reportes') {
+        }
+    }, [activeTab, clientTypeTab, clientSearchTerm, token, user.role, fetchClients]);
+
+    // Effect 3: Cargar datos de reportes cuando la pestaña sea 'reportes' o cambien los filtros de reporte.
+    useEffect(() => {
+        if (!token) return;
+        setMainError(null);
+        setSuccessMessage(null);
+        if (activeTab === 'reportes') {
             if (selectedFestivalId && reportTypeTab) {
                 fetchReport(reportTypeTab, selectedFestivalId);
+            } else {
+                // Limpiar datos de reporte si no hay festival seleccionado
+                setReportData([]);
+                setReportError(null);
             }
         }
-    }, [token, navigate, activeTab, fetchClients, fetchFestivalsForReportSelector, fetchReport, clientTypeTab, reportTypeTab, selectedFestivalId]);
+    }, [activeTab, selectedFestivalId, reportTypeTab, token, fetchReport]);
 
-    // Efecto para cambios en los filtros de clientes (solo si la pestaña de clientes está activa y el usuario es ADMIN).
-    useEffect(() => {
-        if (activeTab === 'clientes' && user.role === 'ADMIN') {
-        }
-    }, [clientTypeTab, clientSearchTerm, activeTab, user.role]);
-
-    // Efecto para cambios en los filtros de reportes (solo si la pestaña de reportes está activa).
-    useEffect(() => {
-        if (activeTab === 'reportes' && selectedFestivalId && reportTypeTab) {
-            fetchReport(reportTypeTab, selectedFestivalId);
-        } else if (activeTab === 'reportes' && !selectedFestivalId) {
-            setReportData([]);
-            setReportError(null);
-        }
-    }, [selectedFestivalId, reportTypeTab, activeTab, fetchReport]);
 
     // Manejador para cambiar la sub-pestaña de clientes.
     const handleClientTypeTabChange = useCallback((type) => {
@@ -323,7 +325,8 @@ const AdminClientAndReportManagement = ({ initialTab = 'clientes' }) => {
                     Gestión de Clientes y Reportes
                 </h1>
                 <div className="flex items-center space-x-4">
-                    {selectedFestivalId && (
+                    {/* Condición para mostrar el botón "Volver a Detalles del Festival" */}
+                    {user.role === 'PROMOTOR' && selectedFestivalId && (
                         <button
                             onClick={() => navigate(`/promotor/festivales/${selectedFestivalId}`)}
                             className="btn-corporate-secondary"
@@ -553,10 +556,6 @@ const AdminClientAndReportManagement = ({ initialTab = 'clientes' }) => {
                             <div className="text-center py-8 text-gray-600">Selecciona un festival para generar un reporte.</div>
                         )}
 
-                        {!reportLoading && selectedFestivalId && reportData.length === 0 && !reportError && (
-                            <div className="text-center py-8 text-gray-600">No hay datos para este reporte y festival.</div>
-                        )}
-
                         {!reportLoading && reportData.length > 0 && selectedFestivalId && (
                             <>
                                 {reportTypeTab === 'compras' && (
@@ -595,11 +594,6 @@ const AdminClientAndReportManagement = ({ initialTab = 'clientes' }) => {
                                                             </td>
                                                             <td>
                                                                 <p className="text-gray-900">{parseFloat(compra.total).toFixed(2)} €</p>
-                                                            </td>
-                                                            <td>
-                                                                {compra.resumenEntradas && compra.resumenEntradas.map((resumen, index) => (
-                                                                    <p key={index} className="text-gray-800 text-xs">{resumen}</p>
-                                                                ))}
                                                             </td>
                                                             <td>
                                                                 {formatDateTime(compra.fechaCompra)}

@@ -19,7 +19,9 @@ const ProtectedRoute = ({ children, requiredRole }) => {
     if (!isAuthenticated) {
         return <Navigate to="/login" replace />;
     }
-    if (requiredRole && user?.role !== requiredRole) {
+    // Si no se requiere un rol específico o el rol del usuario coincide con el requerido, permite el acceso.
+    // Si requiredRole es un array, verifica si el rol del usuario está incluido en el array.
+    if (requiredRole && (!user?.role || (Array.isArray(requiredRole) ? !requiredRole.includes(user.role) : user.role !== requiredRole))) {
         return <Navigate to="/login" replace />;
     }
     return children;
@@ -70,7 +72,7 @@ const AppRoutes = () => {
             <Route path="/admin/usuarios" element={<ProtectedRoute requiredRole="ADMIN"><UserManagement /></ProtectedRoute>} />
             <Route path="/admin/festivales" element={<ProtectedRoute requiredRole="ADMIN"><AdminFestivalManagement /></ProtectedRoute>} />
             <Route path="/admin/clientes" element={<ProtectedRoute requiredRole="ADMIN"><AdminClientAndReportManagement initialTab="clientes" /></ProtectedRoute>} />
-            <Route path="/admin/reportes" element={<ProtectedRoute requiredRole="ADMIN"><AdminClientAndReportManagement /></ProtectedRoute>} />
+            <Route path="/admin/reportes" element={<ProtectedRoute requiredRole={['ADMIN', 'PROMOTOR']}><AdminClientAndReportManagement /></ProtectedRoute>} />
 
             <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>

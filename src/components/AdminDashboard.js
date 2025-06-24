@@ -78,7 +78,7 @@ const AdminDashboard = () => {
                         <h3 className="text-lg font-semibold text-gray-800 mb-2">Reportes y Estadísticas</h3>
                         <p className="text-gray-700 mb-4">Accede a informes de ventas, asistencias y pulseras.</p>
                         <button
-                            onClick={() => navigate('/admin/reportes')}
+                            onClick={() => navigate('/admin/reportes?reportType=compras')}
                             className="btn-corporate-primary"
                         >
                             Ver Reportes
