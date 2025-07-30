@@ -1,70 +1,94 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Beatpass Frontend SPA (React)
 
-## Available Scripts
+Este proyecto es una Aplicación de Página Única (SPA) desarrollada con **React** que consume la API RESTful de **Beatpass**. Proporciona las interfaces de usuario para los paneles de Administrador y Promotor, así como las vistas públicas para la nominación de entradas.
 
-In the project directory, you can run:
+## Características
 
-### `npm start`
+- **Autenticación Segura**: Login que obtiene un token JWT desde la API y lo almacena de forma segura.
+- **Contexto de Autenticación**: Usa `AuthContext` de React para gestionar usuario, rol y token globalmente.
+- **Rutas Protegidas**: Acceso restringido según rol (ADMIN o PROMOTOR).
+- **Forzar Cambio de Contraseña**: Redirección automática al cambio de contraseña tras primer login.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Panel de Administrador (`/admin`)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **Gestión de Usuarios**: Crear, listar, editar y activar/desactivar PROMOTOR y CAJERO.
+- **Gestión de Festivales**: Crear, listar y cambiar estado de festivales.
+- **Gestión de Clientes**: Ver y buscar compradores y asistentes.
 
-### `npm test`
+## Panel de Promotor (`/promotor`)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Dashboard Principal**: Lista de festivales del promotor.
+- **Gestión de Festivales**: Crear y editar festivales propios.
+- **Gestión de Tipos de Entrada**: Crear, editar y eliminar tipos por festival (precio, stock, nominación).
+- **Gestión de Entradas y Pulseras**:
+  - **Nominación**: Asignar entrada a asistente.
+  - **Pulseras NFC**: Asociar pulsera a entrada.
+- **Reportes**:
+  - **Asistentes**: Listado por festival.
+  - **Compras**: Listado de compras por festival.
 
-### `npm run build`
+## Vistas Públicas
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Nominación de Entradas** (`/public/nominar-entrada/:qr`): Página pública para nominar una entrada mediante su código QR.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Tecnologías Utilizadas
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- **Framework**: React.js
+- **Enrutamiento**: React Router DOM
+- **Estilos**: Tailwind CSS
+- **Comunicación con API**: Fetch API (nativo del navegador)
 
-### `npm run eject`
+## Configuración y Puesta en Marcha Local
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Prerrequisitos
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Node.js y npm (o yarn)
+- Backend de Beatpass en ejecución
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Pasos
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. **Clonar el repositorio**:
 
-## Learn More
+```bash
+git clone https://github.com/EduOlalde/DAW2-TFG-Beatpass.git
+cd DAW2-TFG-Beatpass
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+2. **Instalar dependencias**:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+npm install
+```
 
-### Code Splitting
+3. **Configurar variables de entorno**:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Crear archivo `.env.development` en la raíz y añadir:
 
-### Analyzing the Bundle Size
+```
+REACT_APP_API_URL=http://localhost:8080/api
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+4. **Ejecutar la aplicación**:
 
-### Making a Progressive Web App
+```bash
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+La aplicación se abrirá automáticamente en `http://localhost:3000`.
 
-### Advanced Configuration
+## Despliegue
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Este proyecto está preparado para desplegarse en **GitHub Pages**, **Vercel** o **Netlify**.
 
-### Deployment
+Para generar una versión de producción:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```bash
+npm run build
+```
 
-### `npm run build` fails to minify
+Esto generará la carpeta `build` con los archivos listos para desplegar.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Autor
+
+Eduardo Olalde Cruz
